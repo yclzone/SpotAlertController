@@ -7,15 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0B776B9B9B4EAEB659FF0C5 /* libPods-KGAlertController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94C428D03E28AF2EECB14F6E /* libPods-KGAlertController.a */; };
 		CA1631AB1F3D50B0009B9895 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631AA1F3D50B0009B9895 /* main.m */; };
 		CA1631AE1F3D50B0009B9895 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631AD1F3D50B0009B9895 /* AppDelegate.m */; };
 		CA1631B11F3D50B0009B9895 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631B01F3D50B0009B9895 /* ViewController.m */; };
 		CA1631B41F3D50B0009B9895 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA1631B21F3D50B0009B9895 /* Main.storyboard */; };
 		CA1631B61F3D50B0009B9895 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1631B51F3D50B0009B9895 /* Assets.xcassets */; };
 		CA1631B91F3D50B0009B9895 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA1631B71F3D50B0009B9895 /* LaunchScreen.storyboard */; };
+		CA1631C21F3D50CF009B9895 /* KGAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631C11F3D50CF009B9895 /* KGAlertController.m */; };
+		CA1631C81F3DA01B009B9895 /* KGAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631C71F3DA01B009B9895 /* KGAlertAction.m */; };
+		CA1631CB1F3DB2E6009B9895 /* KGAlertViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631CA1F3DB2E6009B9895 /* KGAlertViewConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		879C6F99C40D0800EFE7F388 /* Pods-KGAlertController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KGAlertController.release.xcconfig"; path = "Pods/Target Support Files/Pods-KGAlertController/Pods-KGAlertController.release.xcconfig"; sourceTree = "<group>"; };
+		94C428D03E28AF2EECB14F6E /* libPods-KGAlertController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KGAlertController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0A7D1693A9227A5C85F03E1 /* Pods-KGAlertController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KGAlertController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KGAlertController/Pods-KGAlertController.debug.xcconfig"; sourceTree = "<group>"; };
 		CA1631A61F3D50B0009B9895 /* KGAlertController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KGAlertController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1631AA1F3D50B0009B9895 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CA1631AC1F3D50B0009B9895 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -26,6 +33,12 @@
 		CA1631B51F3D50B0009B9895 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA1631B81F3D50B0009B9895 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA1631BA1F3D50B0009B9895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA1631C01F3D50CF009B9895 /* KGAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertController.h; sourceTree = "<group>"; };
+		CA1631C11F3D50CF009B9895 /* KGAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertController.m; sourceTree = "<group>"; };
+		CA1631C61F3DA01B009B9895 /* KGAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertAction.h; sourceTree = "<group>"; };
+		CA1631C71F3DA01B009B9895 /* KGAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertAction.m; sourceTree = "<group>"; };
+		CA1631C91F3DB2E6009B9895 /* KGAlertViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertViewConfig.h; sourceTree = "<group>"; };
+		CA1631CA1F3DB2E6009B9895 /* KGAlertViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +46,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0B776B9B9B4EAEB659FF0C5 /* libPods-KGAlertController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02BB52AFC38FF92111F99BFF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C0A7D1693A9227A5C85F03E1 /* Pods-KGAlertController.debug.xcconfig */,
+				879C6F99C40D0800EFE7F388 /* Pods-KGAlertController.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		5D64247CD9CFEE0329E4882A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				94C428D03E28AF2EECB14F6E /* libPods-KGAlertController.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CA16319D1F3D50B0009B9895 = {
 			isa = PBXGroup;
 			children = (
 				CA1631A81F3D50B0009B9895 /* KGAlertController */,
 				CA1631A71F3D50B0009B9895 /* Products */,
+				02BB52AFC38FF92111F99BFF /* Pods */,
+				5D64247CD9CFEE0329E4882A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +100,12 @@
 				CA1631B71F3D50B0009B9895 /* LaunchScreen.storyboard */,
 				CA1631BA1F3D50B0009B9895 /* Info.plist */,
 				CA1631A91F3D50B0009B9895 /* Supporting Files */,
+				CA1631C01F3D50CF009B9895 /* KGAlertController.h */,
+				CA1631C11F3D50CF009B9895 /* KGAlertController.m */,
+				CA1631C61F3DA01B009B9895 /* KGAlertAction.h */,
+				CA1631C71F3DA01B009B9895 /* KGAlertAction.m */,
+				CA1631C91F3DB2E6009B9895 /* KGAlertViewConfig.h */,
+				CA1631CA1F3DB2E6009B9895 /* KGAlertViewConfig.m */,
 			);
 			path = KGAlertController;
 			sourceTree = "<group>";
@@ -86,9 +125,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CA1631BD1F3D50B0009B9895 /* Build configuration list for PBXNativeTarget "KGAlertController" */;
 			buildPhases = (
+				7D4A80B0D31F606A7E25D651 /* [CP] Check Pods Manifest.lock */,
 				CA1631A21F3D50B0009B9895 /* Sources */,
 				CA1631A31F3D50B0009B9895 /* Frameworks */,
 				CA1631A41F3D50B0009B9895 /* Resources */,
+				C2BDDCD008D1FFF06C981E1D /* [CP] Embed Pods Frameworks */,
+				5857DB2E9D02D20D7A69F231 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -145,14 +187,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5857DB2E9D02D20D7A69F231 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KGAlertController/Pods-KGAlertController-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D4A80B0D31F606A7E25D651 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C2BDDCD008D1FFF06C981E1D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KGAlertController/Pods-KGAlertController-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CA1631A21F3D50B0009B9895 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA1631C21F3D50CF009B9895 /* KGAlertController.m in Sources */,
 				CA1631B11F3D50B0009B9895 /* ViewController.m in Sources */,
 				CA1631AE1F3D50B0009B9895 /* AppDelegate.m in Sources */,
+				CA1631CB1F3DB2E6009B9895 /* KGAlertViewConfig.m in Sources */,
 				CA1631AB1F3D50B0009B9895 /* main.m in Sources */,
+				CA1631C81F3DA01B009B9895 /* KGAlertAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +363,7 @@
 		};
 		CA1631BE1F3D50B0009B9895 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0A7D1693A9227A5C85F03E1 /* Pods-KGAlertController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = KGAlertController/Info.plist;
@@ -281,6 +375,7 @@
 		};
 		CA1631BF1F3D50B0009B9895 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 879C6F99C40D0800EFE7F388 /* Pods-KGAlertController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = KGAlertController/Info.plist;
@@ -309,6 +404,7 @@
 				CA1631BF1F3D50B0009B9895 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
