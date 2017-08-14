@@ -26,6 +26,6 @@ typedef void(^KGAlertActionHandler)(KGAlertAction *action);
 @property (nonatomic, readwrite, assign) KGAlertActionStyle actionStyle;
 @property (nonatomic, readwrite, copy) KGAlertActionHandler actionHandler;
 
-+ (instancetype)actionWithTitle:(NSString *)title handler:(KGAlertActionHandler)handler;
++ (instancetype)actionWithTitle:(NSString *)title style:(KGAlertActionStyle)style handler:(KGAlertActionHandler)handler;
 
-@end
+@end;

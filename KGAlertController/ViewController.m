@@ -32,22 +32,28 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    KGAlertController *av = [KGAlertController alertControllerWithTitle:[[NSAttributedString alloc] initWithString:@"Warrning"]
-                                                                message:[[NSAttributedString alloc] initWithString:@"Message"]
+    KGAlertController *av = [KGAlertController alertControllerWithTitle:[[NSAttributedString alloc] initWithString:@"标题"]
+                                                                message:[[NSAttributedString alloc] initWithString:@"消息消息消息消息消息消息"]
                                                          preferredStyle:KGAlertControllerStyleAlert];
     
-    KGAlertAction *done = [KGAlertAction actionWithTitle:@"确定" handler:^(KGAlertAction *action) {
+    KGAlertAction *done = [KGAlertAction actionWithTitle:@"确定"
+                                                   style:KGAlertActionStyleDefault handler:^(KGAlertAction *action) {
         NSLog(@"%@", action.title);
     }];
     [av addAction:done];
     
-    KGAlertAction *cancel = [KGAlertAction actionWithTitle:@"取消" handler:^(KGAlertAction *action) {
+    KGAlertAction *high = [KGAlertAction actionWithTitle:@"删除"
+                                                   style:KGAlertActionStyleDestructive handler:^(KGAlertAction *action) {
+        NSLog(@"%@", action.title);
+    }];
+    [av addAction:high];
+    
+    
+    KGAlertAction *cancel = [KGAlertAction actionWithTitle:@"取消"
+                                                     style:KGAlertActionStyleCancel handler:^(KGAlertAction *action) {
         NSLog(@"%@", action.title);
     }];
     [av addAction:cancel];
-    
-    
-    
     
     [av show];
 }

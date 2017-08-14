@@ -10,6 +10,8 @@
 #import <Masonry/Masonry.h>
 
 static CGFloat const MARGIN = 30;
+static CGFloat const ACTION_BUTTON_HEIGHT = 45;
+static CGFloat const ACTION_BUTTON_SPACE = 10;
 
 @interface KGAlertController ()
 
@@ -40,7 +42,7 @@ static CGFloat const MARGIN = 30;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
+    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     
     [self setupViews];
     
@@ -142,6 +144,8 @@ static CGFloat const MARGIN = 30;
         UILabel *label = [[UILabel alloc] init];
         label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;
+        label.font = [UIFont systemFontOfSize:18];
+        label.textColor = [UIColor darkTextColor];
         label.attributedText = self.attributedTitle;
         [self.contentView addSubview:label];
         label;
@@ -151,6 +155,8 @@ static CGFloat const MARGIN = 30;
         UILabel *label = [[UILabel alloc] init];
         label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;
+        label.font = [UIFont systemFontOfSize:16];
+        label.textColor = [UIColor grayColor];
         label.attributedText = self.attributedMessage;
         [self.contentView addSubview:label];
         label;
@@ -174,7 +180,8 @@ static CGFloat const MARGIN = 30;
     // 标题
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleBanner.mas_bottom).offset(MARGIN);
-        make.leading.trailing.equalTo(self.contentView);
+        make.leading.equalTo(self.contentView).offset(MARGIN);
+        make.trailing.equalTo(self.contentView).offset(-MARGIN);
     }];
     
     if (!self.attributedTitle.string.length) {
@@ -185,13 +192,14 @@ static CGFloat const MARGIN = 30;
     
     // 消息内容
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel).offset(MARGIN);
-        make.leading.trailing.equalTo(self.contentView);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(20);
+        make.leading.equalTo(self.contentView).offset(MARGIN);
+        make.trailing.equalTo(self.contentView).offset(-MARGIN);
     }];
     
     if (!self.attributedMessage.string.length) {
         [self.messageLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleLabel).offset(0);
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(0);
         }];
     }
     
@@ -206,14 +214,35 @@ static CGFloat const MARGIN = 30;
     [self.actions enumerateObjectsUsingBlock:^(KGAlertAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton *button = ({
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.backgroundColor = [UIColor groupTableViewBackgroundColor];
+            [button addTarget:self action:@selector(actionButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+            button.tag = idx;
             button.titleLabel.font = [UIFont systemFontOfSize:17];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [button setTitle:action.title forState:UIControlStateNormal];
             button.layer.cornerRadius = 3;
-            [button addTarget:self action:@selector(actionButtonDidClicked:)
-             forControlEvents:UIControlEventTouchUpInside];
-            button.tag = idx;
+            
+            switch (action.actionStyle) {
+                case KGAlertActionStyleDefault: {
+                    button.backgroundColor = [UIColor colorWithRed:81/255.0 green:127/255.0 blue:247/255.0 alpha:1];
+                    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    break;
+                }
+                case KGAlertActionStyleCancel: {
+                    button.backgroundColor = [UIColor whiteColor];
+                    button.layer.borderWidth = 0.5;
+                    button.layer.borderColor = [UIColor colorWithRed:154/255.0 green:161/255.0 blue:175/255.0 alpha:1].CGColor;
+                    [button setTitleColor:[UIColor colorWithRed:136/255.0 green:136/255.0 blue:136/255.0 alpha:1] forState:UIControlStateNormal];
+                    break;
+                }
+                case KGAlertActionStyleDestructive: {
+                    button.backgroundColor = [UIColor colorWithRed:81/255.0 green:127/255.0 blue:247/255.0 alpha:1];
+                    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    break;
+                }
+                    
+                default:
+                    break;
+            }
+            
             [self.actionsHolderView addSubview:button];
             button;
         });
@@ -221,13 +250,14 @@ static CGFloat const MARGIN = 30;
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.leading.equalTo(self.actionsHolderView);
             make.trailing.equalTo(self.actionsHolderView);
+            make.height.mas_equalTo(ACTION_BUTTON_HEIGHT);
             
             if (!previousButton) {
                 // 第一个按钮
                 make.top.equalTo(self.actionsHolderView.mas_top);
             } else {
                 // 中间的按钮
-                make.top.equalTo(previousButton.mas_bottom).offset(10);
+                make.top.equalTo(previousButton.mas_bottom).offset(ACTION_BUTTON_SPACE);
             }
         }];
         

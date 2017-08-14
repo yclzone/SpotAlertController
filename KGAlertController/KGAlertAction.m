@@ -9,9 +9,10 @@
 #import "KGAlertAction.h"
 
 @implementation KGAlertAction
-+ (instancetype)actionWithTitle:(NSString *)title handler:(KGAlertActionHandler)handler {
++ (instancetype)actionWithTitle:(NSString *)title style:(KGAlertActionStyle)style handler:(KGAlertActionHandler)handler {
     KGAlertAction *action = [KGAlertAction new];
     action.title = title;
+    action.actionStyle = style;
     action.actionHandler = handler;
     return action;
 }
