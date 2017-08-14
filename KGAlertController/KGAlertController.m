@@ -3,7 +3,7 @@
 //  KGAlertController
 //
 //  Created by gogovan on 11/08/2017.
-//  Copyright © 2017 GOGO VAN. All rights reserved.
+//  Copyright © 2017 GoGoVan. All rights reserved.
 //
 
 #import "KGAlertController.h"
@@ -25,18 +25,16 @@ static CGFloat const MARGIN = 30;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 
-@property (nonatomic, strong) UIButton *doneButton;
-@property (nonatomic, strong) UIButton *cancelButton;
-
 @property (nonatomic, strong) UIView *actionsHolderView;
 
-@property (nonatomic, copy) NSString *alertTitel;
-@property (nonatomic, copy) NSString *alertMessage;
 
 @property (nonatomic, strong) NSMutableArray<KGAlertAction *> *actions;
+@property (nonatomic, strong) NSMutableArray<UITextField *> *textFields;
 @end
 
 @implementation KGAlertController
+
+#pragma mark - Life Cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,6 +42,87 @@ static CGFloat const MARGIN = 30;
     
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
     
+    [self setupViews];
+    
+    [self setupLayout];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    NSLog(@"%s", __FUNCTION__);
+}
+
+#pragma mark - Public Methods
+
++ (instancetype)alertControllerWithTitle:(NSAttributedString *)title
+                                 message:(NSAttributedString *)message
+                          preferredStyle:(KGAlertControllerStyle)preferredStyle {
+    KGAlertController *ac = [KGAlertController new];
+    ac.attributedTitle= title;
+    ac.attributedMessage = message;
+    ac.preferredStyle = preferredStyle;
+    return ac;
+}
+
+- (void)show {
+    self.previousWindow = [UIApplication sharedApplication].keyWindow;
+    [self.alertWindow makeKeyAndVisible];
+}
+
+- (void)dismiss {
+    [self.previousWindow makeKeyAndVisible];
+    self.alertWindow = nil;
+}
+
+- (void)addAction:(KGAlertAction *)action {
+    if (!action) {
+        return;
+    }
+    
+    [self.actions addObject:action];
+}
+
+- (void)addTextFieldWithConfigurationHandler:(KGTextFieldConfigurationHandler)configurationHandler {
+    
+}
+
+#pragma mark - Event Response
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self dismiss];
+}
+
+- (void)actionButtonDidClicked:(UIButton *)button {
+    KGAlertAction *action = self.actions[button.tag];
+    if (action.actionHandler) {
+        action.actionHandler(action);
+    }
+}
+
+#pragma mark - Private Methods
+
+- (UIView *)validView {
+    UIView *validView = nil;
+    if (self.attributedTitle.string.length) {
+        validView = self.titleLabel;
+    }
+    
+    if (self.attributedMessage.string.length) {
+        validView = self.messageLabel;
+    }
+    
+    if (!validView) {
+        validView = self.titleBanner;
+    }
+    return validView;
+}
+
+- (void)setupViews {
     self.contentView = ({
         UIView *view = [[UIView alloc] init];
         view.layer.cornerRadius = 6;
@@ -59,25 +138,70 @@ static CGFloat const MARGIN = 30;
         imageView;
     });
     
+    self.titleLabel = ({
+        UILabel *label = [[UILabel alloc] init];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.numberOfLines = 0;
+        label.attributedText = self.attributedTitle;
+        [self.contentView addSubview:label];
+        label;
+    });
+    
+    self.messageLabel = ({
+        UILabel *label = [[UILabel alloc] init];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.numberOfLines = 0;
+        label.attributedText = self.attributedMessage;
+        [self.contentView addSubview:label];
+        label;
+    });
+    
     self.actionsHolderView = ({
         UIView *view = [[UIView alloc] init];
-        view.backgroundColor = [UIColor redColor];
         [self.contentView addSubview:view];
         view;
     });
+}
 
+- (void)setupLayout {
     
+    
+    // 标题图片
     [self.titleBanner mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.leading.trailing.equalTo(self.contentView);
     }];
-
-    [self.actionsHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    // 标题
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleBanner.mas_bottom).offset(MARGIN);
+        make.leading.trailing.equalTo(self.contentView);
+    }];
+    
+    if (!self.attributedTitle.string.length) {
+        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleBanner.mas_bottom).offset(0);
+        }];
+    }
+    
+    // 消息内容
+    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel).offset(MARGIN);
+        make.leading.trailing.equalTo(self.contentView);
+    }];
+    
+    if (!self.attributedMessage.string.length) {
+        [self.messageLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel).offset(0);
+        }];
+    }
+    
+    [self.actionsHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo([self validView].mas_bottom).offset(MARGIN);
         make.leading.equalTo(self.contentView).offset(MARGIN);
         make.trailing.equalTo(self.contentView).offset(-MARGIN);
         make.bottom.equalTo(self.contentView).offset(-MARGIN);
     }];
-
+    
     __block UIButton *previousButton = nil;
     [self.actions enumerateObjectsUsingBlock:^(KGAlertAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton *button = ({
@@ -121,37 +245,20 @@ static CGFloat const MARGIN = 30;
     }];
 }
 
-- (void)dealloc {
-    NSLog(@"%s", __FUNCTION__);
-}
 
-- (void)showTitle:(NSString *)title message:(NSString *)message {
-    
-    self.alertTitel = title;
-    self.alertMessage = message;
-    
-    [self.alertWindow makeKeyAndVisible];
-}
-
-- (void)show {
-    [self.alertWindow makeKeyAndVisible];
-}
-
-- (void)addAction:(KGAlertAction *)action {
-    if (!action) {
-        return;
+#pragma mark - Getter && Setter
+- (NSMutableArray *)actions {
+    if (!_actions) {
+        _actions = [NSMutableArray array];
     }
-    
-    [self.actions addObject:action];
+    return _actions;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    self.alertWindow = nil;
+- (NSMutableArray<UITextField *> *)textFields {
+    if (!_textFields) {
+        _textFields = [NSMutableArray array];
+    }
+    return _textFields;
 }
 
 - (UIWindow *)alertWindow {
@@ -163,23 +270,6 @@ static CGFloat const MARGIN = 30;
         _alertWindow = window;
     }
     return _alertWindow;
-}
-
-#pragma mark - Action
-- (void)actionButtonDidClicked:(UIButton *)button {
-    KGAlertAction *action = self.actions[button.tag];
-    if (action.actionHandler) {
-        action.actionHandler(action);
-    }
-}
-
-
-#pragma mark - Getter && Setter
-- (NSMutableArray *)actions {
-    if (!_actions) {
-        _actions = [NSMutableArray array];
-    }
-    return _actions;
 }
 
 @end

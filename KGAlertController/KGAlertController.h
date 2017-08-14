@@ -3,15 +3,31 @@
 //  KGAlertController
 //
 //  Created by gogovan on 11/08/2017.
-//  Copyright © 2017 GOGO VAN. All rights reserved.
+//  Copyright © 2017 GoGoVan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "KGAlertAction.h"
 
-@interface KGAlertController : UIViewController
-- (void)showTitle:(NSString *)title message:(NSString *)message;
+typedef NS_ENUM(NSInteger, KGAlertControllerStyle) {
+    KGAlertControllerStyleActionSheet = 0,
+    KGAlertControllerStyleAlert
+};
 
-- (void)show;
+typedef void(^KGTextFieldConfigurationHandler)(UITextField *textField);
+
+// UIAlertController
+
+@interface KGAlertController : UIViewController
+
+@property (nonatomic, readwrite, copy) NSAttributedString *attributedTitle;
+@property (nonatomic, readwrite, copy) NSAttributedString *attributedMessage;
+@property (nonatomic, readwrite, assign) KGAlertControllerStyle preferredStyle;
+
++ (instancetype)alertControllerWithTitle:(NSAttributedString *)title
+                                 message:(NSAttributedString *)message
+                          preferredStyle:(KGAlertControllerStyle)preferredStyle;
 - (void)addAction:(KGAlertAction *)action;
+- (void)addTextFieldWithConfigurationHandler:(KGTextFieldConfigurationHandler)configurationHandler;
+- (void)show;
 @end

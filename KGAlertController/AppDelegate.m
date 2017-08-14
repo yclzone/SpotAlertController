@@ -3,7 +3,7 @@
 //  KGAlertController
 //
 //  Created by gogovan on 11/08/2017.
-//  Copyright © 2017 GOGO VAN. All rights reserved.
+//  Copyright © 2017 GoGoVan. All rights reserved.
 //
 
 #import "AppDelegate.h"

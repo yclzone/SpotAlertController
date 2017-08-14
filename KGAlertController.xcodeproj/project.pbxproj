@@ -147,8 +147,9 @@
 		CA16319E1F3D50B0009B9895 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = KG;
 				LastUpgradeCheck = 0830;
-				ORGANIZATIONNAME = "GOGO VAN";
+				ORGANIZATIONNAME = GoGoVan;
 				TargetAttributes = {
 					CA1631A51F3D50B0009B9895 = {
 						CreatedOnToolsVersion = 8.3.3;

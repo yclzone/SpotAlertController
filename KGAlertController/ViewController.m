@@ -3,7 +3,7 @@
 //  KGAlertController
 //
 //  Created by gogovan on 11/08/2017.
-//  Copyright © 2017 GOGO VAN. All rights reserved.
+//  Copyright © 2017 GoGoVan. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -32,7 +32,9 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    KGAlertController *av = [KGAlertController new];
+    KGAlertController *av = [KGAlertController alertControllerWithTitle:[[NSAttributedString alloc] initWithString:@"Warrning"]
+                                                                message:[[NSAttributedString alloc] initWithString:@"Message"]
+                                                         preferredStyle:KGAlertControllerStyleAlert];
     
     KGAlertAction *done = [KGAlertAction actionWithTitle:@"确定" handler:^(KGAlertAction *action) {
         NSLog(@"%@", action.title);
