@@ -32,7 +32,9 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    KGAlertController *av = [KGAlertController alertControllerWithTitle:[[NSAttributedString alloc] initWithString:@"标题"]
+    
+    KGAlertController *av = [KGAlertController alertControllerWithImage:[UIImage imageNamed:@"sheet_call"]
+                                                                  title:[[NSAttributedString alloc] initWithString:@"标题"]
                                                                 message:[[NSAttributedString alloc] initWithString:@"消息消息消息消息消息消息"]
                                                          preferredStyle:KGAlertControllerStyleAlert];
     

@@ -12,6 +12,7 @@
 static CGFloat const MARGIN = 30;
 static CGFloat const ACTION_BUTTON_HEIGHT = 45;
 static CGFloat const ACTION_BUTTON_SPACE = 10;
+static CGFloat const CONTENTVIEW_WIDTH = 285;
 
 @interface KGAlertController ()
 
@@ -45,6 +46,10 @@ static CGFloat const ACTION_BUTTON_SPACE = 10;
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     
     [self setupViews];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     [self setupLayout];
 }
@@ -54,9 +59,9 @@ static CGFloat const ACTION_BUTTON_SPACE = 10;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    NSLog(@"%s", __FUNCTION__);
-}
+//- (void)dealloc {
+//    NSLog(@"%s", __FUNCTION__);
+//}
 
 #pragma mark - Public Methods
 
@@ -64,6 +69,18 @@ static CGFloat const ACTION_BUTTON_SPACE = 10;
                                  message:(NSAttributedString *)message
                           preferredStyle:(KGAlertControllerStyle)preferredStyle {
     KGAlertController *ac = [KGAlertController new];
+    ac.attributedTitle= title;
+    ac.attributedMessage = message;
+    ac.preferredStyle = preferredStyle;
+    return ac;
+}
+
++ (instancetype)alertControllerWithImage:(UIImage *)image
+                                   title:(NSAttributedString *)title
+                                 message:(NSAttributedString *)message
+                          preferredStyle:(KGAlertControllerStyle)preferredStyle{
+    KGAlertController *ac = [KGAlertController new];
+    ac.headerImage = image;
     ac.attributedTitle= title;
     ac.attributedMessage = message;
     ac.preferredStyle = preferredStyle;
@@ -104,6 +121,8 @@ static CGFloat const ACTION_BUTTON_SPACE = 10;
     if (action.actionHandler) {
         action.actionHandler(action);
     }
+    
+    [self dismiss];
 }
 
 #pragma mark - Private Methods
@@ -134,7 +153,7 @@ static CGFloat const ACTION_BUTTON_SPACE = 10;
     });
     
     self.titleBanner = ({
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sheet_call"]];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:self.headerImage];
         imageView.contentMode = UIViewContentModeScaleToFill;
         [self.contentView addSubview:imageView];
         imageView;
@@ -270,11 +289,10 @@ static CGFloat const ACTION_BUTTON_SPACE = 10;
     }];
     
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(285);
+        make.width.mas_equalTo(CONTENTVIEW_WIDTH);
         make.center.equalTo(self.view);
     }];
 }
-
 
 #pragma mark - Getter && Setter
 - (NSMutableArray *)actions {

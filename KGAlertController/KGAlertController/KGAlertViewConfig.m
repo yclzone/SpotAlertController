@@ -9,5 +9,12 @@
 #import "KGAlertViewConfig.h"
 
 @implementation KGAlertViewConfig
-
++ (instancetype)sharedConfig {
+    static KGAlertViewConfig *config = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        config = [[self alloc] init];
+    });
+    return config;
+}
 @end

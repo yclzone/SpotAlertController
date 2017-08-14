@@ -14,9 +14,9 @@
 		CA1631B41F3D50B0009B9895 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA1631B21F3D50B0009B9895 /* Main.storyboard */; };
 		CA1631B61F3D50B0009B9895 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1631B51F3D50B0009B9895 /* Assets.xcassets */; };
 		CA1631B91F3D50B0009B9895 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA1631B71F3D50B0009B9895 /* LaunchScreen.storyboard */; };
-		CA1631C21F3D50CF009B9895 /* KGAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631C11F3D50CF009B9895 /* KGAlertController.m */; };
-		CA1631C81F3DA01B009B9895 /* KGAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631C71F3DA01B009B9895 /* KGAlertAction.m */; };
-		CA1631CB1F3DB2E6009B9895 /* KGAlertViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631CA1F3DB2E6009B9895 /* KGAlertViewConfig.m */; };
+		CA1631D31F417478009B9895 /* KGAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631CE1F417478009B9895 /* KGAlertAction.m */; };
+		CA1631D41F417478009B9895 /* KGAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631D01F417478009B9895 /* KGAlertController.m */; };
+		CA1631D51F417478009B9895 /* KGAlertViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631D21F417478009B9895 /* KGAlertViewConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,12 +33,12 @@
 		CA1631B51F3D50B0009B9895 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA1631B81F3D50B0009B9895 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA1631BA1F3D50B0009B9895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CA1631C01F3D50CF009B9895 /* KGAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertController.h; sourceTree = "<group>"; };
-		CA1631C11F3D50CF009B9895 /* KGAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertController.m; sourceTree = "<group>"; };
-		CA1631C61F3DA01B009B9895 /* KGAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertAction.h; sourceTree = "<group>"; };
-		CA1631C71F3DA01B009B9895 /* KGAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertAction.m; sourceTree = "<group>"; };
-		CA1631C91F3DB2E6009B9895 /* KGAlertViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertViewConfig.h; sourceTree = "<group>"; };
-		CA1631CA1F3DB2E6009B9895 /* KGAlertViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertViewConfig.m; sourceTree = "<group>"; };
+		CA1631CD1F417478009B9895 /* KGAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertAction.h; sourceTree = "<group>"; };
+		CA1631CE1F417478009B9895 /* KGAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertAction.m; sourceTree = "<group>"; };
+		CA1631CF1F417478009B9895 /* KGAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertController.h; sourceTree = "<group>"; };
+		CA1631D01F417478009B9895 /* KGAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertController.m; sourceTree = "<group>"; };
+		CA1631D11F417478009B9895 /* KGAlertViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertViewConfig.h; sourceTree = "<group>"; };
+		CA1631D21F417478009B9895 /* KGAlertViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +91,7 @@
 		CA1631A81F3D50B0009B9895 /* KGAlertController */ = {
 			isa = PBXGroup;
 			children = (
+				CA1631CC1F417478009B9895 /* KGAlertController */,
 				CA1631AC1F3D50B0009B9895 /* AppDelegate.h */,
 				CA1631AD1F3D50B0009B9895 /* AppDelegate.m */,
 				CA1631AF1F3D50B0009B9895 /* ViewController.h */,
@@ -100,12 +101,6 @@
 				CA1631B71F3D50B0009B9895 /* LaunchScreen.storyboard */,
 				CA1631BA1F3D50B0009B9895 /* Info.plist */,
 				CA1631A91F3D50B0009B9895 /* Supporting Files */,
-				CA1631C01F3D50CF009B9895 /* KGAlertController.h */,
-				CA1631C11F3D50CF009B9895 /* KGAlertController.m */,
-				CA1631C61F3DA01B009B9895 /* KGAlertAction.h */,
-				CA1631C71F3DA01B009B9895 /* KGAlertAction.m */,
-				CA1631C91F3DB2E6009B9895 /* KGAlertViewConfig.h */,
-				CA1631CA1F3DB2E6009B9895 /* KGAlertViewConfig.m */,
 			);
 			path = KGAlertController;
 			sourceTree = "<group>";
@@ -116,6 +111,19 @@
 				CA1631AA1F3D50B0009B9895 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CA1631CC1F417478009B9895 /* KGAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				CA1631CD1F417478009B9895 /* KGAlertAction.h */,
+				CA1631CE1F417478009B9895 /* KGAlertAction.m */,
+				CA1631CF1F417478009B9895 /* KGAlertController.h */,
+				CA1631D01F417478009B9895 /* KGAlertController.m */,
+				CA1631D11F417478009B9895 /* KGAlertViewConfig.h */,
+				CA1631D21F417478009B9895 /* KGAlertViewConfig.m */,
+			);
+			path = KGAlertController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,12 +249,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA1631C21F3D50CF009B9895 /* KGAlertController.m in Sources */,
 				CA1631B11F3D50B0009B9895 /* ViewController.m in Sources */,
+				CA1631D41F417478009B9895 /* KGAlertController.m in Sources */,
 				CA1631AE1F3D50B0009B9895 /* AppDelegate.m in Sources */,
-				CA1631CB1F3DB2E6009B9895 /* KGAlertViewConfig.m in Sources */,
+				CA1631D51F417478009B9895 /* KGAlertViewConfig.m in Sources */,
+				CA1631D31F417478009B9895 /* KGAlertAction.m in Sources */,
 				CA1631AB1F3D50B0009B9895 /* main.m in Sources */,
-				CA1631C81F3DA01B009B9895 /* KGAlertAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
