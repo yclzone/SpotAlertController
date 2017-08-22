@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 
 static CGFloat const MARGIN = 30;
+static CGFloat const ACTION_FIELD_HEIGHT = 40;
 static CGFloat const ACTION_BUTTON_HEIGHT = 45;
 static CGFloat const ACTION_BUTTON_SPACE = 10;
 static CGFloat const CONTENTVIEW_WIDTH = 285;
@@ -28,6 +29,7 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 
+@property (nonatomic, strong) UIView *fieldsHolderView;
 @property (nonatomic, strong) UIView *actionsHolderView;
 
 
@@ -43,7 +45,7 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     
     [self setupViews];
 }
@@ -107,6 +109,15 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
 
 - (void)addTextFieldWithConfigurationHandler:(KGTextFieldConfigurationHandler)configurationHandler {
     
+    UITextField *textField = [[UITextField alloc] init];
+    textField.borderStyle = UITextBorderStyleNone;
+    textField.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
+    textField.layer.borderWidth = 1;
+    textField.layer.cornerRadius = 4;
+    [self.textFields addObject:textField];
+    if (configurationHandler) {
+        configurationHandler(textField);
+    }
 }
 
 #pragma mark - Event Response
@@ -181,6 +192,12 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
         label;
     });
     
+    self.fieldsHolderView = ({
+        UIView *view = [[UIView alloc] init];
+        [self.contentView addSubview:view];
+        view;
+    });
+    
     self.actionsHolderView = ({
         UIView *view = [[UIView alloc] init];
         [self.contentView addSubview:view];
@@ -222,8 +239,43 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
         }];
     }
     
-    [self.actionsHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+    // 文本框
+    [self.fieldsHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo([self validView].mas_bottom).offset(MARGIN);
+        make.leading.equalTo(self.contentView).offset(MARGIN);
+        make.trailing.equalTo(self.contentView).offset(-MARGIN);
+//        make.bottom.equalTo(self.contentView).offset(-MARGIN);
+    }];
+    
+    __block UITextField *previousField = nil;
+    [self.textFields enumerateObjectsUsingBlock:^(UITextField * _Nonnull textField, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.fieldsHolderView addSubview:textField];
+        [textField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.equalTo(self.fieldsHolderView);
+            make.trailing.equalTo(self.fieldsHolderView);
+            make.height.mas_equalTo(ACTION_FIELD_HEIGHT);
+            
+            if (!previousField) {
+                // 第一个按钮
+                make.top.equalTo(self.fieldsHolderView.mas_top);
+            } else {
+                // 中间的按钮
+                make.top.equalTo(previousField.mas_bottom).offset(ACTION_BUTTON_SPACE);
+            }
+        }];
+        
+        previousField = textField;
+    }];
+    
+    // 最后一个按钮
+    [previousField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.fieldsHolderView);
+    }];
+    
+    
+    // 按钮
+    [self.actionsHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.fieldsHolderView.mas_bottom).offset(MARGIN);
         make.leading.equalTo(self.contentView).offset(MARGIN);
         make.trailing.equalTo(self.contentView).offset(-MARGIN);
         make.bottom.equalTo(self.contentView).offset(-MARGIN);
