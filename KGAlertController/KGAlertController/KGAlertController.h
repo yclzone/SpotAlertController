@@ -24,6 +24,10 @@ typedef void(^KGTextFieldConfigurationHandler)(UITextField *textField);
 @property (nonatomic, readwrite, copy) NSAttributedString *attributedTitle;
 @property (nonatomic, readwrite, copy) NSAttributedString *attributedMessage;
 @property (nonatomic, readwrite, assign) KGAlertControllerStyle preferredStyle;
+@property (nonatomic, readwrite, assign) BOOL dimBackground;
+@property (nonatomic, readwrite, assign) BOOL showBackgroundImage;
+@property (nonatomic, readwrite, assign) BOOL hiddenContentView;
+
 
 + (instancetype)alertControllerWithTitle:(NSAttributedString *)title
                                  message:(NSAttributedString *)message
@@ -36,6 +40,10 @@ typedef void(^KGTextFieldConfigurationHandler)(UITextField *textField);
 
 
 - (void)addAction:(KGAlertAction *)action;
+
 - (void)addTextFieldWithConfigurationHandler:(KGTextFieldConfigurationHandler)configurationHandler;
+- (UITextField *)textFieldAtIndex:(NSInteger)index;
 - (void)show;
+- (void)dismiss;
 @end
+

@@ -8,11 +8,7 @@
 
 #import "KGAlertController.h"
 #import <Masonry/Masonry.h>
-
-static CGFloat const MARGIN = 30;
-static CGFloat const ACTION_BUTTON_HEIGHT = 45;
-static CGFloat const ACTION_BUTTON_SPACE = 10;
-static CGFloat const CONTENTVIEW_WIDTH = 285;
+#import "KGAlertView.h"
 
 @interface KGAlertController ()
 
@@ -21,13 +17,16 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
 
 @property (nonatomic, assign) BOOL useIndependentWindow;
 
-@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) KGAlertView *contentView;
+
+@property (nonatomic, strong) UIImageView *bgImageView;
 
 @property (nonatomic, strong) UIImageView *titleBanner;
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 
+@property (nonatomic, strong) UIView *fieldsHolderView;
 @property (nonatomic, strong) UIView *actionsHolderView;
 
 
@@ -42,16 +41,30 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if (_dimBackground) {
+        self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    } else {
+        self.view.backgroundColor = [UIColor clearColor];
+    }
+
+    [self configAlertView];
     
-    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+    self.contentView.headerImage = self.headerImage;
+    self.contentView.attributedTitle = self.attributedTitle;
+    self.contentView.attributedMessage = self.attributedMessage;
+    self.contentView.actions = self.actions;
+    self.contentView.textFields = self.textFields;
+    [self.contentView setupLayout];
     
-    [self setupViews];
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self setupLayout];
+//    [self setupLayout];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,9 +72,9 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)dealloc {
-//    NSLog(@"%s", __FUNCTION__);
-//}
+- (void)dealloc {
+    NSLog(@"%s", __FUNCTION__);
+}
 
 #pragma mark - Public Methods
 
@@ -72,29 +85,72 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
     ac.attributedTitle= title;
     ac.attributedMessage = message;
     ac.preferredStyle = preferredStyle;
+    ac.dimBackground = YES;
     return ac;
 }
 
 + (instancetype)alertControllerWithImage:(UIImage *)image
                                    title:(NSAttributedString *)title
                                  message:(NSAttributedString *)message
-                          preferredStyle:(KGAlertControllerStyle)preferredStyle{
+                          preferredStyle:(KGAlertControllerStyle)preferredStyle {
     KGAlertController *ac = [KGAlertController new];
     ac.headerImage = image;
     ac.attributedTitle= title;
     ac.attributedMessage = message;
     ac.preferredStyle = preferredStyle;
+    ac.dimBackground = YES;
+//    [ac configAlertView];
     return ac;
 }
 
 - (void)show {
+    
+    [self showAnimaged:YES];
+}
+
+- (void)showAnimaged:(BOOL)animated {
     self.previousWindow = [UIApplication sharedApplication].keyWindow;
     [self.alertWindow makeKeyAndVisible];
+    
+    if (animated) {
+        CGAffineTransform old = self.contentView.transform;
+        
+        CGAffineTransform from = CGAffineTransformScale(self.contentView.transform, 0, 0);
+        self.contentView.transform = from;
+        CGAffineTransform to = CGAffineTransformScale(old, 1.05, 1.05);
+        CGAffineTransform end = CGAffineTransformIdentity;
+        [UIView animateWithDuration:0.15 animations:^{
+            self.contentView.transform = to;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.05 animations:^{
+                self.contentView.transform = end;
+            }];
+            
+        }];
+    }
+}
+
+- (void)dismissAnimated:(BOOL)animated {
+    void (^completion)(void) = ^{
+        [self.previousWindow makeKeyAndVisible];
+        self.alertWindow = nil;
+    };
+    if (animated) {
+        CGAffineTransform old = self.contentView.transform;
+        CGAffineTransform to = CGAffineTransformScale(old, 0.9, 0.9);
+        [UIView animateWithDuration:0.2 animations:^{
+            self.contentView.transform = to;
+            self.view.alpha = 0;
+        } completion:^(BOOL finished) {
+            completion();
+        }];
+    } else {
+        completion();
+    }
 }
 
 - (void)dismiss {
-    [self.previousWindow makeKeyAndVisible];
-    self.alertWindow = nil;
+    [self dismissAnimated:YES];
 }
 
 - (void)addAction:(KGAlertAction *)action {
@@ -107,194 +163,52 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
 
 - (void)addTextFieldWithConfigurationHandler:(KGTextFieldConfigurationHandler)configurationHandler {
     
+    UITextField *textField = [[UITextField alloc] init];
+    textField.borderStyle = UITextBorderStyleNone;
+    textField.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
+    textField.layer.borderWidth = 1;
+    textField.layer.cornerRadius = 4;
+    [self.textFields addObject:textField];
+    if (configurationHandler) {
+        configurationHandler(textField);
+    }
 }
 
-#pragma mark - Event Response
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
-    [self dismiss];
-}
-
-- (void)actionButtonDidClicked:(UIButton *)button {
-    KGAlertAction *action = self.actions[button.tag];
-    if (action.actionHandler) {
-        action.actionHandler(action);
+- (UITextField *)textFieldAtIndex:(NSInteger)index {
+    if (self.textFields.count > index) {
+        return self.textFields[index];
     }
     
-    [self dismiss];
+    return nil;
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 #pragma mark - Private Methods
 
-- (UIView *)validView {
-    UIView *validView = nil;
-    if (self.attributedTitle.string.length) {
-        validView = self.titleLabel;
+- (void)configAlertView {
+    switch (self.preferredStyle) {
+        case KGAlertControllerStyleAlert: {
+            self.contentView = [KGAlertView new];
+            break;
+        }
+        case KGAlertControllerStyleActionSheet: {
+            //
+            break;
+        }
     }
-    
-    if (self.attributedMessage.string.length) {
-        validView = self.messageLabel;
-    }
-    
-    if (!validView) {
-        validView = self.titleBanner;
-    }
-    return validView;
-}
-
-- (void)setupViews {
-    self.contentView = ({
-        UIView *view = [[UIView alloc] init];
-        view.layer.cornerRadius = 6;
-        view.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:view];
-        view;
-    });
-    
-    self.titleBanner = ({
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:self.headerImage];
-        imageView.contentMode = UIViewContentModeScaleToFill;
-        [self.contentView addSubview:imageView];
-        imageView;
-    });
-    
-    self.titleLabel = ({
-        UILabel *label = [[UILabel alloc] init];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.numberOfLines = 0;
-        label.font = [UIFont systemFontOfSize:18];
-        label.textColor = [UIColor darkTextColor];
-        label.attributedText = self.attributedTitle;
-        [self.contentView addSubview:label];
-        label;
-    });
-    
-    self.messageLabel = ({
-        UILabel *label = [[UILabel alloc] init];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.numberOfLines = 0;
-        label.font = [UIFont systemFontOfSize:16];
-        label.textColor = [UIColor grayColor];
-        label.attributedText = self.attributedMessage;
-        [self.contentView addSubview:label];
-        label;
-    });
-    
-    self.actionsHolderView = ({
-        UIView *view = [[UIView alloc] init];
-        [self.contentView addSubview:view];
-        view;
-    });
-}
-
-- (void)setupLayout {
-    
-    
-    // 标题图片
-    [self.titleBanner mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.leading.trailing.equalTo(self.contentView);
-    }];
-    
-    // 标题
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleBanner.mas_bottom).offset(MARGIN);
-        make.leading.equalTo(self.contentView).offset(MARGIN);
-        make.trailing.equalTo(self.contentView).offset(-MARGIN);
-    }];
-    
-    if (!self.attributedTitle.string.length) {
-        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleBanner.mas_bottom).offset(0);
-        }];
-    }
-    
-    // 消息内容
-    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(20);
-        make.leading.equalTo(self.contentView).offset(MARGIN);
-        make.trailing.equalTo(self.contentView).offset(-MARGIN);
-    }];
-    
-    if (!self.attributedMessage.string.length) {
-        [self.messageLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(0);
-        }];
-    }
-    
-    [self.actionsHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo([self validView].mas_bottom).offset(MARGIN);
-        make.leading.equalTo(self.contentView).offset(MARGIN);
-        make.trailing.equalTo(self.contentView).offset(-MARGIN);
-        make.bottom.equalTo(self.contentView).offset(-MARGIN);
-    }];
-    
-    __block UIButton *previousButton = nil;
-    [self.actions enumerateObjectsUsingBlock:^(KGAlertAction * _Nonnull action, NSUInteger idx, BOOL * _Nonnull stop) {
-        UIButton *button = ({
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            [button addTarget:self action:@selector(actionButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
-            button.tag = idx;
-            button.titleLabel.font = [UIFont systemFontOfSize:17];
-            [button setTitle:action.title forState:UIControlStateNormal];
-            button.layer.cornerRadius = 3;
-            
-            switch (action.actionStyle) {
-                case KGAlertActionStyleDefault: {
-                    button.backgroundColor = [UIColor colorWithRed:81/255.0 green:127/255.0 blue:247/255.0 alpha:1];
-                    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                    break;
-                }
-                case KGAlertActionStyleCancel: {
-                    button.backgroundColor = [UIColor whiteColor];
-                    button.layer.borderWidth = 0.5;
-                    button.layer.borderColor = [UIColor colorWithRed:154/255.0 green:161/255.0 blue:175/255.0 alpha:1].CGColor;
-                    [button setTitleColor:[UIColor colorWithRed:136/255.0 green:136/255.0 blue:136/255.0 alpha:1] forState:UIControlStateNormal];
-                    break;
-                }
-                case KGAlertActionStyleDestructive: {
-                    button.backgroundColor = [UIColor colorWithRed:81/255.0 green:127/255.0 blue:247/255.0 alpha:1];
-                    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                    break;
-                }
-                    
-                default:
-                    break;
-            }
-            
-            [self.actionsHolderView addSubview:button];
-            button;
-        });
-        
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.leading.equalTo(self.actionsHolderView);
-            make.trailing.equalTo(self.actionsHolderView);
-            make.height.mas_equalTo(ACTION_BUTTON_HEIGHT);
-            
-            if (!previousButton) {
-                // 第一个按钮
-                make.top.equalTo(self.actionsHolderView.mas_top);
-            } else {
-                // 中间的按钮
-                make.top.equalTo(previousButton.mas_bottom).offset(ACTION_BUTTON_SPACE);
-            }
-        }];
-        
-        previousButton = button;
-    }];
-    
-    // 最后一个按钮
-    [previousButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.actionsHolderView);
-    }];
-    
-    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(CONTENTVIEW_WIDTH);
-        make.center.equalTo(self.view);
-    }];
+    __weak typeof(self) weakSelf = self;
+    self.contentView.handler = ^{
+        [weakSelf dismiss];
+    };
+    self.contentView.userInteractionEnabled = YES;
+    [self.view addSubview:self.contentView];
 }
 
 #pragma mark - Getter && Setter
+
 - (NSMutableArray *)actions {
     if (!_actions) {
         _actions = [NSMutableArray array];
@@ -321,3 +235,4 @@ static CGFloat const CONTENTVIEW_WIDTH = 285;
 }
 
 @end
+

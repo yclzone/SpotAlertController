@@ -17,6 +17,7 @@
 		CA1631D31F417478009B9895 /* KGAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631CE1F417478009B9895 /* KGAlertAction.m */; };
 		CA1631D41F417478009B9895 /* KGAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631D01F417478009B9895 /* KGAlertController.m */; };
 		CA1631D51F417478009B9895 /* KGAlertViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1631D21F417478009B9895 /* KGAlertViewConfig.m */; };
+		CADFD4501F74F4C100CA66E6 /* KGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = CADFD44F1F74F4C100CA66E6 /* KGAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		CA1631D01F417478009B9895 /* KGAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertController.m; sourceTree = "<group>"; };
 		CA1631D11F417478009B9895 /* KGAlertViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertViewConfig.h; sourceTree = "<group>"; };
 		CA1631D21F417478009B9895 /* KGAlertViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertViewConfig.m; sourceTree = "<group>"; };
+		CADFD44E1F74F4C100CA66E6 /* KGAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAlertView.h; sourceTree = "<group>"; };
+		CADFD44F1F74F4C100CA66E6 /* KGAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGAlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,8 @@
 				CA1631D01F417478009B9895 /* KGAlertController.m */,
 				CA1631D11F417478009B9895 /* KGAlertViewConfig.h */,
 				CA1631D21F417478009B9895 /* KGAlertViewConfig.m */,
+				CADFD44E1F74F4C100CA66E6 /* KGAlertView.h */,
+				CADFD44F1F74F4C100CA66E6 /* KGAlertView.m */,
 			);
 			path = KGAlertController;
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 				TargetAttributes = {
 					CA1631A51F3D50B0009B9895 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 9P9F6TV96Q;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -254,6 +260,7 @@
 				CA1631AE1F3D50B0009B9895 /* AppDelegate.m in Sources */,
 				CA1631D51F417478009B9895 /* KGAlertViewConfig.m in Sources */,
 				CA1631D31F417478009B9895 /* KGAlertAction.m in Sources */,
+				CADFD4501F74F4C100CA66E6 /* KGAlertView.m in Sources */,
 				CA1631AB1F3D50B0009B9895 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,7 +382,9 @@
 			baseConfigurationReference = C0A7D1693A9227A5C85F03E1 /* Pods-KGAlertController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9P9F6TV96Q;
 				INFOPLIST_FILE = KGAlertController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.kuaigou.KGAlertController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -387,7 +396,9 @@
 			baseConfigurationReference = 879C6F99C40D0800EFE7F388 /* Pods-KGAlertController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9P9F6TV96Q;
 				INFOPLIST_FILE = KGAlertController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.kuaigou.KGAlertController;
 				PRODUCT_NAME = "$(TARGET_NAME)";

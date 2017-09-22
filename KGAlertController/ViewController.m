@@ -38,18 +38,12 @@
                                                                 message:[[NSAttributedString alloc] initWithString:@"消息消息消息消息消息消息"]
                                                          preferredStyle:KGAlertControllerStyleAlert];
     
-    KGAlertAction *done = [KGAlertAction actionWithTitle:@"确定"
-                                                   style:KGAlertActionStyleDefault handler:^(KGAlertAction *action) {
-        NSLog(@"%@", action.title);
+    __weak typeof (av) weakAV = av;
+    KGAlertAction *done = [KGAlertAction actionWithTitle:@"确定" style:KGAlertActionStyleDefault handler:^(KGAlertAction *action) {
+        UITextField *field = [weakAV textFieldAtIndex:0];
+        NSLog(@"%@", field.text);
     }];
     [av addAction:done];
-    
-    KGAlertAction *high = [KGAlertAction actionWithTitle:@"删除"
-                                                   style:KGAlertActionStyleDestructive handler:^(KGAlertAction *action) {
-        NSLog(@"%@", action.title);
-    }];
-    [av addAction:high];
-    
     
     KGAlertAction *cancel = [KGAlertAction actionWithTitle:@"取消"
                                                      style:KGAlertActionStyleCancel handler:^(KGAlertAction *action) {
@@ -57,8 +51,11 @@
     }];
     [av addAction:cancel];
     
+    [av addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"在此输入";
+    }];
+    
     [av show];
 }
-
 
 @end
